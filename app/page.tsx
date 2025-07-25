@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react"
 import {
-  Moon,
-  Sun,
   Search,
   MessageCircle,
   Shield,
@@ -13,19 +11,18 @@ import {
   Eye,
   ShoppingCart,
   Users,
-  DollarSign,
-  TrendingUp,
-  Zap,
   Headphones,
   Bike,
   DrillIcon as Drone,
-  Heart,
   Battery,
-  Gem,
+  Monitor,
+  Camera,
+  X,
   ChevronLeft,
   ChevronRight,
   Menu,
-  X,
+  Clock,
+  Package,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -33,97 +30,208 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 
 export default function MarketplaceLanding() {
-  const [darkMode, setDarkMode] = useState(true)
-  const [currentSlide, setCurrentSlide] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showNewsletter, setShowNewsletter] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
+  const [toastLocation, setToastLocation] = useState("")
+  const [toastProduct, setToastProduct] = useState("")
+  const [currentSlide, setCurrentSlide] = useState(0)
 
+  // Newsletter slide-in effect
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
+    const timer = setTimeout(() => {
+      setShowNewsletter(true)
+    }, 7000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Social proof toast notifications
+  useEffect(() => {
+    const locations = ["Austin, TX", "Seattle, WA", "New York, NY", "Denver, CO", "Miami, FL", "Chicago, IL"]
+    const products = ["Canon R5", "Sony A7IV", "KEF LS50", "DJI Inspire 3", "MacBook Pro M3", "Specialized Turbo"]
+
+    const showRandomToast = () => {
+      const randomLocation = locations[Math.floor(Math.random() * locations.length)]
+      const randomProduct = products[Math.floor(Math.random() * products.length)]
+
+      setToastLocation(randomLocation)
+      setToastProduct(randomProduct)
+      setShowToast(true)
+
+      setTimeout(() => {
+        setShowToast(false)
+      }, 5000)
     }
-  }, [darkMode])
+
+    // Initial toast
+    const initialTimer = setTimeout(showRandomToast, 15000)
+
+    // Recurring toasts
+    const intervalTimer = setInterval(showRandomToast, 60000)
+
+    return () => {
+      clearTimeout(initialTimer)
+      clearInterval(intervalTimer)
+    }
+  }, [])
 
   const heroProducts = [
     {
       name: "Apple Vision Pro",
-      price: "$3,499",
+      price: "$3,499.00",
       image: "/placeholder.svg?height=400&width=600",
       seller: "TechVault Pro",
-      badge: "VERIFIED",
+      badge: "VERIFIED PRO",
     },
     {
       name: "KEF Blade Two Meta",
-      price: "$28,000",
+      price: "$28,000.00",
       image: "/placeholder.svg?height=400&width=600",
       seller: "AudioPhile Elite",
-      badge: "CHARTER",
+      badge: "FOUNDING SELLER",
     },
     {
       name: "Bluetti AC500 + B300S",
-      price: "$4,999",
+      price: "$4,999.00",
       image: "/placeholder.svg?height=400&width=600",
       seller: "PowerTech Solutions",
-      badge: "VERIFIED",
+      badge: "VERIFIED PRO",
     },
   ]
 
   const categories = [
-    { name: "High-End Electronics", icon: Zap, count: "847 items", brands: "Apple, Sony, Samsung" },
-    { name: "Pro Audio/Visual", icon: Headphones, count: "423 items", brands: "Focal, KEF, SUSVARA" },
-    { name: "Elite E-Bikes", icon: Bike, count: "156 items", brands: "Biktrix, Specialized" },
-    { name: "Professional Drones", icon: Drone, count: "89 items", brands: "DJI Inspire 3, Autel" },
-    { name: "Wellness Tech", icon: Heart, count: "234 items", brands: "Joovv, Peloton, NormaTec" },
-    { name: "Power Solutions", icon: Battery, count: "178 items", brands: "Bluetti, Goal Zero" },
-    { name: "Luxury Collectibles", icon: Gem, count: "312 items", brands: "Limited Editions" },
+    { name: "Professional Camera Equipment", icon: Camera, count: "847 items", brands: "Canon, Sony, RED" },
+    { name: "Pro Audio & Studio Gear", icon: Headphones, count: "423 items", brands: "Focal, KEF, Neumann" },
+    { name: "High-Performance E-Bikes", icon: Bike, count: "156 items", brands: "Specialized, Riese & Müller" },
+    { name: "Commercial Drones", icon: Drone, count: "89 items", brands: "DJI Inspire 3, Autel" },
+    { name: "Backup Power Systems", icon: Battery, count: "178 items", brands: "Bluetti, Goal Zero" },
+    { name: "Creator Workstations", icon: Monitor, count: "234 items", brands: "Apple, Puget Systems" },
   ]
 
   const featuredProducts = [
     {
       name: "Sony FX9 Full-Frame Camera",
-      price: "$11,998",
-      originalPrice: "$13,500",
+      price: "$11,998.00",
+      originalPrice: "$13,500.00",
       image: "/placeholder.svg?height=300&width=300",
       seller: "CineTech Pro",
+      sellerType: "Verified Pro Seller",
       rating: 4.9,
       stock: 2,
-      badges: ["UPS Insured", "Live Chat"],
+      condition: "Factory Sealed",
+      badges: ["UPS Insured", "Expert Available"],
+      viewers: 17,
+      priceDrop: "$1,502.00",
       soldOut: false,
     },
     {
       name: "PS5 Dev Kit",
-      price: "$8,999",
+      price: "$8,999.00",
       image: "/placeholder.svg?height=300&width=300",
       seller: "DevKit Vault",
+      sellerType: "Founding Seller",
       rating: 5.0,
       stock: 0,
+      condition: "Mint Condition",
       badges: ["Signature Required"],
+      viewers: 8,
+      priceDrop: "$500.00",
       soldOut: true,
+      weeklyDeal: true,
     },
     {
       name: "Specialized Turbo Creo SL",
-      price: "$12,500",
+      price: "$12,500.00",
       image: "/placeholder.svg?height=300&width=300",
       seller: "Elite Cycles",
+      sellerType: "Verified Pro Seller",
       rating: 4.8,
       stock: 1,
-      badges: ["UPS Insured", "Live Chat"],
+      condition: "Open Box",
+      badges: ["UPS Insured", "Expert Available"],
+      viewers: 12,
+      priceDrop: "$2,000.00",
       soldOut: false,
+      lastUnit: true,
     },
     {
       name: "DJI Inspire 3",
-      price: "$16,499",
+      price: "$16,499.00",
       image: "/placeholder.svg?height=300&width=300",
       seller: "AerialPro Solutions",
+      sellerType: "Founding Seller",
       rating: 4.9,
       stock: 3,
-      badges: ["Signature Required", "Live Chat"],
+      condition: "Factory Sealed",
+      badges: ["Signature Required", "Expert Available"],
+      viewers: 23,
+      priceDrop: "$1,000.00",
       soldOut: false,
     },
   ]
 
-  const trustLogos = ["Coinbase Commerce", "BitPay", "Affirm", "Klarna", "Route Protection"]
+  const trustLogos = [
+    { name: "Escrow.com" },
+    { name: "ID.me" },
+    { name: "Coinbase Commerce" },
+    { name: "BitPay" },
+    { name: "Affirm" },
+    { name: "Klarna" },
+    { name: "Route" },
+  ]
+
+  const verifiedSellers = [
+    {
+      name: "Dex Volkov",
+      image: "/placeholder.svg?height=80&width=80",
+      specialty: "Pro Audio & Camera Equipment",
+      rating: 4.9,
+      sales: 247,
+      badge: "Founding Seller #001",
+      response: "Under 1 hour",
+    },
+    {
+      name: "Eliza Chen",
+      image: "/placeholder.svg?height=80&width=80",
+      specialty: "Creator Workstations & Displays",
+      rating: 5.0,
+      sales: 189,
+      badge: "Founding Seller #002",
+      response: "Under 30 minutes",
+    },
+    {
+      name: "Marcus Reid",
+      image: "/placeholder.svg?height=80&width=80",
+      specialty: "Commercial Drones & E-Bikes",
+      rating: 4.8,
+      sales: 156,
+      badge: "Founding Seller #003",
+      response: "Under 2 hours",
+    },
+  ]
+
+  const testimonials = [
+    {
+      name: "Sarah K.",
+      profession: "Professional Photographer",
+      text: "The equipment authentication process gave me confidence to purchase a $8,000 camera sight unseen. Arrived exactly as described.",
+      rating: 5,
+    },
+    {
+      name: "Michael T.",
+      profession: "Audio Engineer",
+      text: "After being scammed on other marketplaces, ArbVault's escrow protection was a game-changer. Seller was responsive and knowledgeable.",
+      rating: 5,
+    },
+    {
+      name: "Jennifer R.",
+      profession: "Content Creator",
+      text: "The seller personally called me to ensure I understood all the features of my new workstation. Above and beyond service.",
+      rating: 5,
+    },
+  ]
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroProducts.length)
@@ -134,16 +242,19 @@ export default function MarketplaceLanding() {
   }
 
   return (
-    <div className="min-h-screen transition-colors duration-300 bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-gray-950">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-950/60">
+      <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/60">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center">
+              <div className="flex items-center">
                 <Shield className="h-8 w-8 text-blue-500" />
-                <span className="text-xl font-bold text-gray-900 dark:text-white">ArbVault</span>
-                <Badge variant="secondary" className="bg-blue-500/20 text-blue-400 text-xs">
+                <span className="text-xl font-bold text-white ml-2">ArbVault</span>
+                <Badge
+                  variant="secondary"
+                  className="bg-blue-500/20 text-blue-400 text-xs border border-blue-500/30 ml-4"
+                >
                   BETA
                 </Badge>
               </div>
@@ -151,28 +262,16 @@ export default function MarketplaceLanding() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              <a
-                href="#"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Categories
               </a>
-              <a
-                href="#"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Sellers
               </a>
-              <a
-                href="#"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 How It Works
               </a>
-              <a
-                href="#"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 Support
               </a>
             </nav>
@@ -180,26 +279,18 @@ export default function MarketplaceLanding() {
             {/* Search Bar */}
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
                   placeholder="Search verified products..."
-                  className="bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 pl-10"
+                  className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pl-10"
                 />
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setDarkMode(!darkMode)}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              >
-                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
-              <Button
                 variant="outline"
-                className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 bg-transparent hidden md:inline-flex"
+                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent hidden md:inline-flex"
               >
                 Sign In
               </Button>
@@ -219,46 +310,31 @@ export default function MarketplaceLanding() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 dark:border-gray-800 py-4">
+            <div className="md:hidden border-t border-gray-800 py-4">
               <div className="flex flex-col space-y-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     placeholder="Search verified products..."
-                    className="pl-10 bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                    className="pl-10 bg-gray-900 border-gray-700 text-white placeholder-gray-400"
                   />
                 </div>
                 <nav className="flex flex-col space-y-2">
-                  <a
-                    href="#"
-                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2"
-                  >
+                  <a href="#" className="text-gray-300 hover:text-white transition-colors py-2">
                     Categories
                   </a>
-                  <a
-                    href="#"
-                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2"
-                  >
+                  <a href="#" className="text-gray-300 hover:text-white transition-colors py-2">
                     Sellers
                   </a>
-                  <a
-                    href="#"
-                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2"
-                  >
+                  <a href="#" className="text-gray-300 hover:text-white transition-colors py-2">
                     How It Works
                   </a>
-                  <a
-                    href="#"
-                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2"
-                  >
+                  <a href="#" className="text-gray-300 hover:text-white transition-colors py-2">
                     Support
                   </a>
                 </nav>
-                <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200 dark:border-gray-800">
-                  <Button
-                    variant="outline"
-                    className="border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 bg-transparent"
-                  >
+                <div className="flex flex-col space-y-2 pt-4 border-t border-gray-800">
+                  <Button variant="outline" className="border-gray-700 text-white hover:bg-gray-800 bg-transparent">
                     Sign In
                   </Button>
                   <Button className="bg-blue-600 hover:bg-blue-700">Join Now</Button>
@@ -270,19 +346,19 @@ export default function MarketplaceLanding() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-100 via-gray-200 to-blue-100 dark:from-gray-950 dark:via-gray-900 dark:to-blue-950">
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950">
         <div className="container mx-auto px-4 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-                  The Premier Marketplace for{" "}
+                <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
+                  The Trusted Marketplace for{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                    Authenticated High-Value Goods
+                    Pro-Grade Equipment
                   </span>
                 </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Connecting verified sellers with discerning collectors. Every transaction protected.
+                <p className="text-xl text-gray-300 leading-relaxed">
+                  Buy and sell professional equipment from carefully vetted sellers with complete escrow protection.
                 </p>
               </div>
 
@@ -302,24 +378,43 @@ export default function MarketplaceLanding() {
                 </Badge>
               </div>
 
+              {/* Stats */}
+              <div className="flex flex-wrap gap-6 text-sm">
+                <div className="flex items-center">
+                  <Users className="w-4 h-4 mr-2 text-blue-400" />
+                  <span className="text-gray-300">10 Hand-Selected Sellers</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+                  <span className="text-gray-300">100% ID Verified</span>
+                </div>
+                <div className="flex items-center">
+                  <Shield className="w-4 h-4 mr-2 text-purple-400" />
+                  <span className="text-gray-300">Zero Fraud Rate</span>
+                </div>
+              </div>
+
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg">
-                  Shop Verified Products
+                  Browse Pro Equipment
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 px-8 py-4 text-lg bg-transparent"
+                  className="border-gray-600 text-white hover:bg-gray-800 px-8 py-4 text-lg bg-transparent"
                 >
-                  Become a Seller
+                  Apply for Seller Access
                 </Button>
               </div>
+              <a href="#" className="text-sm text-blue-500 hover:text-blue-400 underline">
+                New to Bitcoin? Learn How to Save 3%
+              </a>
             </div>
 
             {/* Product Carousel */}
             <div className="relative">
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 p-8">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 p-8">
                 <div className="relative h-96">
                   {heroProducts.map((product, index) => (
                     <div
@@ -334,18 +429,18 @@ export default function MarketplaceLanding() {
                         <img
                           src={product.image || "/placeholder.svg"}
                           alt={product.name}
-                          className="w-full h-64 object-cover rounded-lg"
+                          className="w-full h-64 object-cover rounded-lg transition-transform duration-500 hover:scale-105"
                         />
                         <div className="space-y-2">
-                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{product.name}</h3>
+                          <h3 className="text-2xl font-bold text-white">{product.name}</h3>
                           <p className="text-3xl font-bold text-blue-400">{product.price}</p>
                           <div className="flex items-center justify-center space-x-2">
                             <Badge
-                              className={`${product.badge === "CHARTER" ? "bg-purple-500/20 text-purple-400" : "bg-green-500/20 text-green-400"}`}
+                              className={`${product.badge === "FOUNDING SELLER" ? "bg-amber-500/20 text-amber-400 border border-amber-500/30" : "bg-green-500/20 text-green-400"}`}
                             >
                               {product.badge}
                             </Badge>
-                            <span className="text-gray-600 dark:text-gray-300">by {product.seller}</span>
+                            <span className="text-gray-300">by {product.seller}</span>
                           </div>
                         </div>
                       </div>
@@ -356,13 +451,13 @@ export default function MarketplaceLanding() {
                 {/* Carousel Controls */}
                 <button
                   onClick={prevSlide}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-300/80 dark:bg-gray-800/80 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white p-2 rounded-full transition-colors"
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800/80 hover:bg-gray-700 text-white p-2 rounded-full transition-colors"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-300/80 dark:bg-gray-800/80 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white p-2 rounded-full transition-colors"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800/80 hover:bg-gray-700 text-white p-2 rounded-full transition-colors"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -374,7 +469,7 @@ export default function MarketplaceLanding() {
                       key={index}
                       onClick={() => setCurrentSlide(index)}
                       className={`w-3 h-3 rounded-full transition-colors ${
-                        index === currentSlide ? "bg-blue-500" : "bg-gray-400 dark:bg-gray-600"
+                        index === currentSlide ? "bg-blue-500" : "bg-gray-600"
                       }`}
                     />
                   ))}
@@ -386,54 +481,41 @@ export default function MarketplaceLanding() {
       </section>
 
       {/* Trust Bar */}
-      <section className="bg-gray-100 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0">
-            {/* Trust Logos */}
-            <div className="flex items-center space-x-8 overflow-x-auto">
-              {trustLogos.map((logo, index) => (
-                <div key={index} className="flex-shrink-0 text-gray-400 font-medium whitespace-nowrap">
-                  {logo}
+      <section className="bg-gray-900/80 backdrop-blur-sm border-y border-gray-800 overflow-hidden">
+        <div className="container mx-auto px-4 py-6">
+          <div className="text-center mb-4">
+            <p className="text-gray-300 text-sm font-medium">Trusted Payment & Protection Partners</p>
+          </div>
+          <div className="relative overflow-hidden">
+            <div className="flex items-center space-x-12 py-2 animate-scroll">
+              {[...trustLogos, ...trustLogos, ...trustLogos].map((logo, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                >
+                  <span className="text-gray-300 font-medium whitespace-nowrap text-sm">{logo.name}</span>
                 </div>
               ))}
-            </div>
-
-            {/* Live Stats */}
-            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-8 text-sm">
-              <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
-                <Users className="w-4 h-4 text-blue-400" />
-                <span>2,847 Verified Sellers</span>
-              </div>
-              <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
-                <DollarSign className="w-4 h-4 text-green-400" />
-                <span>$12.3M Protected Transactions</span>
-              </div>
-              <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
-                <TrendingUp className="w-4 h-4 text-purple-400" />
-                <span>99.8% Satisfaction</span>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Categories */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-950">
+      <section className="py-16 bg-gray-950">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Featured Categories</h2>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
-              Discover premium products across our verified categories
-            </p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Equipment Categories</h2>
+            <p className="text-gray-300 text-lg">Professional-grade equipment from verified specialists</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
             {categories.map((category, index) => {
               const IconComponent = category.icon
               return (
                 <Card
                   key={index}
-                  className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800 border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all duration-300 cursor-pointer group"
+                  className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 hover:border-blue-500/50 transition-all duration-300 cursor-pointer group"
                 >
                   <CardContent className="p-6">
                     <div className="flex items-center space-x-4 mb-4">
@@ -441,13 +523,13 @@ export default function MarketplaceLanding() {
                         <IconComponent className="w-6 h-6 text-blue-400" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-400 transition-colors">
+                        <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">
                           {category.name}
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">{category.count}</p>
+                        <p className="text-sm text-gray-300">{category.count}</p>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{category.brands}</p>
+                    <p className="text-sm text-gray-400">{category.brands}</p>
                   </CardContent>
                 </Card>
               )
@@ -456,49 +538,133 @@ export default function MarketplaceLanding() {
         </div>
       </section>
 
-      {/* Power User Section */}
-      <section className="py-16 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-950 dark:to-blue-950">
+      {/* Seller Network Section */}
+      <section className="py-16 bg-gray-900">
         <div className="container mx-auto px-4">
-          <Card className="bg-white/90 dark:bg-gray-900/80 border-purple-500/30 backdrop-blur">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Our Curated Seller Network</h2>
+            <p className="text-gray-300 text-lg mb-2">
+              We maintain strict standards - only 10 sellers have passed our verification
+            </p>
+            <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-4 py-1">
+              Currently accepting applications for 5 additional sellers in Q1 2025
+            </Badge>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {verifiedSellers.map((seller, index) => (
+              <Card key={index} className="bg-gray-800 border-gray-700 overflow-hidden group">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4 mb-6">
+                    <img
+                      src={seller.image || "/placeholder.svg"}
+                      alt={seller.name}
+                      className="w-16 h-16 rounded-full border-2 border-amber-500 transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div>
+                      <h3 className="font-bold text-white">{seller.name}</h3>
+                      <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                        {seller.badge}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <p className="text-gray-300 font-medium">{seller.specialty}</p>
+
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center">
+                        <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
+                        <span className="text-gray-300">{seller.rating}/5.0</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Package className="w-4 h-4 text-blue-400 mr-1" />
+                        <span className="text-gray-300">{seller.sales} Sales</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center text-sm">
+                      <Clock className="w-4 h-4 text-green-400 mr-1" />
+                      <span className="text-gray-300">Response time: {seller.response}</span>
+                    </div>
+                  </div>
+
+                  <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">View Equipment</Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Power User Section */}
+      <section className="py-16 bg-gradient-to-r from-purple-950 to-blue-950">
+        <div className="container mx-auto px-4">
+          <Card className="bg-gray-900/80 border-purple-500/30 backdrop-blur">
             <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl lg:text-3xl font-bold text-white">Meet Our Founding Seller</h2>
+              </div>
+
               <div className="grid lg:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6">
                   <div className="flex items-center space-x-4">
                     <img
                       src="/placeholder.svg?height=80&width=80"
                       alt="Dex Volkov"
-                      className="w-20 h-20 rounded-full border-2 border-purple-500"
+                      className="w-20 h-20 rounded-full border-2 border-amber-500"
                     />
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Dex Volkov</h3>
-                      <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30">CHARTER SELLER</Badge>
+                      <h3 className="text-2xl font-bold text-white">Dex Volkov</h3>
+                      <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                        FOUNDING SELLER #001
+                      </Badge>
                     </div>
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      Get my book FREE with your first transaction
-                    </h4>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      "The High-Value Collector's Guide" - Available to members with 1+ reputation
+                    <p className="text-gray-300 italic">
+                      "After being deplatformed from major marketplaces, I helped establish ArbVault's seller standards.
+                      Every piece of equipment I sell is authenticated and ships same day."
                     </p>
-                    <Button className="bg-purple-600 hover:bg-purple-700">View Dex's Collection</Button>
+
+                    <div className="flex flex-wrap gap-4 text-sm">
+                      <div className="flex items-center">
+                        <Package className="w-4 h-4 mr-1 text-blue-400" />
+                        <span className="text-gray-300">247 Sales</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Star className="w-4 h-4 mr-1 text-yellow-400 fill-current" />
+                        <span className="text-gray-300">99.9% Rating</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-4 h-4 mr-1 text-green-400" />
+                        <span className="text-gray-300">Ships Within 4 Hours</span>
+                      </div>
+                    </div>
+
+                    <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+                      <p className="text-white font-medium">🎁 Get My Book FREE - Complete Your First Transaction</p>
+                      <p className="text-sm text-gray-300 mt-1">(1+ reputation required)</p>
+                    </div>
+
+                    <Button className="bg-purple-600 hover:bg-purple-700">Browse Dex's Pro Audio Collection</Button>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Featured Products</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Featured Products</h4>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-gray-200 dark:bg-gray-800 rounded-lg">
-                      <span className="text-gray-900 dark:text-white">MacBook Pro M3 Max</span>
+                    <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                      <span className="text-white">MacBook Pro M3 Max</span>
                       <Badge className="bg-green-500/20 text-green-400">SOLD</Badge>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-200 dark:bg-gray-800 rounded-lg">
-                      <span className="text-gray-900 dark:text-white">PS5 Dev Kit</span>
+                    <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                      <span className="text-white">PS5 Dev Kit</span>
                       <Badge className="bg-red-500/20 text-red-400">SOLD OUT</Badge>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-200 dark:bg-gray-800 rounded-lg">
-                      <span className="text-gray-900 dark:text-white">DJI Inspire 3</span>
+                    <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                      <span className="text-white">DJI Inspire 3</span>
                       <Badge className="bg-blue-500/20 text-blue-400">AVAILABLE</Badge>
                     </div>
                   </div>
@@ -509,25 +675,168 @@ export default function MarketplaceLanding() {
         </div>
       </section>
 
-      {/* Product Showcase */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-950">
+      {/* Why ArbVault Section */}
+      <section className="py-16 bg-gray-950">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Premium Products</h2>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
-              Handpicked high-value items from verified sellers
-            </p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Why ArbVault?</h2>
+            <p className="text-gray-300 text-lg">The safest way to buy and sell professional equipment</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 mb-12">
+            <Card className="bg-gray-900 border-red-500/30">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-red-500 mb-4">The Problem</h3>
+                <p className="text-gray-300 mb-4">
+                  Pro equipment marketplaces are full of unverified sellers and risky transactions.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <X className="w-5 h-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">No seller verification</span>
+                  </li>
+                  <li className="flex items-start">
+                    <X className="w-5 h-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">No equipment authentication</span>
+                  </li>
+                  <li className="flex items-start">
+                    <X className="w-5 h-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">No payment protection</span>
+                  </li>
+                  <li className="flex items-start">
+                    <X className="w-5 h-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">No expert support</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gray-900 border-green-500/30">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-green-500 mb-4">Our Solution</h3>
+                <p className="text-gray-300 mb-4">A curated network of 10 verified professional sellers.</p>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">Government ID verification required</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">Equipment authentication guarantee</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">SecureHold Escrow Protection</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-300">Direct access to equipment experts</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="bg-gray-900">
+            <CardContent className="p-6 overflow-x-auto">
+              <h3 className="text-xl font-bold text-white mb-6 text-center">How We Compare</h3>
+              <table className="w-full min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-gray-700">
+                    <th className="text-left py-3 px-4 text-gray-300">Feature</th>
+                    <th className="text-center py-3 px-4 text-blue-600">ArbVault</th>
+                    <th className="text-center py-3 px-4 text-gray-300">eBay</th>
+                    <th className="text-center py-3 px-4 text-gray-300">Facebook Marketplace</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-700">
+                    <td className="py-3 px-4 text-gray-300">Seller Verification</td>
+                    <td className="text-center py-3 px-4 text-green-500">Government ID Required</td>
+                    <td className="text-center py-3 px-4 text-gray-300">Basic</td>
+                    <td className="text-center py-3 px-4 text-gray-300">None</td>
+                  </tr>
+                  <tr className="border-b border-gray-700">
+                    <td className="py-3 px-4 text-gray-300">Equipment Authentication</td>
+                    <td className="text-center py-3 px-4 text-green-500">Guaranteed</td>
+                    <td className="text-center py-3 px-4 text-gray-300">Limited</td>
+                    <td className="text-center py-3 px-4 text-gray-300">None</td>
+                  </tr>
+                  <tr className="border-b border-gray-700">
+                    <td className="py-3 px-4 text-gray-300">Payment Protection</td>
+                    <td className="text-center py-3 px-4 text-green-500">SecureHold Escrow</td>
+                    <td className="text-center py-3 px-4 text-gray-300">Basic</td>
+                    <td className="text-center py-3 px-4 text-gray-300">None</td>
+                  </tr>
+                  <tr className="border-b border-gray-700">
+                    <td className="py-3 px-4 text-gray-300">Expert Support</td>
+                    <td className="text-center py-3 px-4 text-green-500">Direct Access</td>
+                    <td className="text-center py-3 px-4 text-gray-300">Limited</td>
+                    <td className="text-center py-3 px-4 text-gray-300">None</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 text-gray-300">Fraud Rate</td>
+                    <td className="text-center py-3 px-4 text-green-500">0%</td>
+                    <td className="text-center py-3 px-4 text-gray-300">Varies</td>
+                    <td className="text-center py-3 px-4 text-gray-300">High</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Metrics Bar */}
+      <section className="bg-blue-600 py-10">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="space-y-2">
+              <p className="text-3xl font-bold text-white">500+</p>
+              <p className="text-blue-100">Products Listed</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold text-white">$2.3M</p>
+              <p className="text-blue-100">Inventory Value</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold text-white">48-Hour</p>
+              <p className="text-blue-100">Dispute Resolution</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold text-white">0%</p>
+              <p className="text-blue-100">Fraud Rate</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Showcase */}
+      <section className="py-16 bg-gray-950">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Premium Equipment</h2>
+            <p className="text-gray-300 text-lg">Professional-grade equipment from verified specialists</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map((product, index) => (
               <Card
                 key={index}
-                className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all duration-300 group relative overflow-hidden"
+                className="bg-gray-900 border-gray-700 hover:border-blue-500/50 transition-all duration-300 group relative overflow-hidden"
               >
                 {product.soldOut && (
                   <div className="absolute inset-0 bg-black/60 z-10 flex items-center justify-center">
                     <Badge className="bg-red-500/20 text-red-400 text-lg px-4 py-2">SOLD OUT</Badge>
+                  </div>
+                )}
+
+                {product.weeklyDeal && (
+                  <div className="absolute top-2 left-2 z-10">
+                    <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3 py-1">
+                      <Clock className="w-3 h-3 mr-1" />
+                      Seller's Weekly Deal: 14h 23m
+                    </Badge>
                   </div>
                 )}
 
@@ -536,7 +845,7 @@ export default function MarketplaceLanding() {
                     <img
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute top-2 right-2 flex flex-col space-y-1">
                       {product.badges.map((badge, badgeIndex) => (
@@ -545,32 +854,63 @@ export default function MarketplaceLanding() {
                         </Badge>
                       ))}
                     </div>
+
+                    {product.viewers > 0 && (
+                      <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full flex items-center">
+                        <Eye className="w-3 h-3 mr-1 text-red-400" />
+                        {product.viewers} viewing now
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-4 space-y-3">
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-400 transition-colors">
-                        {product.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">by {product.seller}</p>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">
+                          {product.name}
+                        </h3>
+                        <Badge
+                          className={`${product.sellerType === "Founding Seller" ? "bg-amber-500/20 text-amber-400 border border-amber-500/30" : "bg-green-500/20 text-green-400"} text-xs`}
+                        >
+                          {product.sellerType}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-gray-300">by {product.seller}</p>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div>
-                        <span className="text-xl font-bold text-gray-900 dark:text-white">{product.price}</span>
+                        <span className="text-xl font-bold text-white">{product.price}</span>
                         {product.originalPrice && (
-                          <span className="text-sm text-gray-500 dark:text-gray-400 line-through ml-2">
-                            {product.originalPrice}
-                          </span>
+                          <span className="text-sm text-gray-400 line-through ml-2">{product.originalPrice}</span>
                         )}
                       </div>
                       <div className="flex items-center space-x-1">
                         <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm text-gray-600 dark:text-gray-300">{product.rating}</span>
+                        <span className="text-sm text-gray-300">{product.rating}</span>
                       </div>
                     </div>
 
-                    {product.stock > 0 && <p className="text-sm text-amber-400">Only {product.stock} left in stock</p>}
+                    <div className="flex items-center text-sm text-blue-500">
+                      <span>📊 {product.priceDrop} below retail</span>
+                      <a href="#" className="ml-1 underline text-xs">
+                        View History
+                      </a>
+                    </div>
+
+                    <div className="flex items-center text-sm">
+                      <Badge className="bg-gray-800 text-gray-300 font-normal">{product.condition}</Badge>
+
+                      {product.lastUnit && <span className="ml-2 text-amber-500 text-xs">Last unit available</span>}
+                      {!product.lastUnit && product.stock > 0 && (
+                        <span className="ml-2 text-amber-500 text-xs">Only {product.stock} left in stock</span>
+                      )}
+                    </div>
+
+                    <div className="text-xs text-gray-400 flex items-center">
+                      <Package className="w-3 h-3 mr-1" />
+                      <span>📦 Insured • Signature Required • Ships Today</span>
+                    </div>
 
                     <div className="flex space-x-2">
                       <Button size="sm" className="flex-1 bg-blue-600 hover:bg-blue-700" disabled={product.soldOut}>
@@ -580,7 +920,7 @@ export default function MarketplaceLanding() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 bg-transparent"
+                        className="border-gray-600 text-white hover:bg-gray-800 bg-transparent"
                       >
                         <MessageCircle className="w-4 h-4" />
                       </Button>
@@ -593,48 +933,80 @@ export default function MarketplaceLanding() {
         </div>
       </section>
 
-      {/* Trust & Security Section */}
-      <section className="py-16 bg-gray-100 dark:bg-gray-900">
+      {/* Testimonials */}
+      <section className="py-16 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Trust & Security</h2>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">Your protection is our priority</p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">What Professionals Say</h2>
+            <p className="text-gray-300 text-lg">Trusted by professionals across industries</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="bg-gradient-to-br from-green-100 to-white dark:from-green-950 dark:to-gray-900 border-green-500/30">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="bg-gray-800">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-300 italic mb-6">"{testimonial.text}"</p>
+                  <div>
+                    <p className="font-semibold text-white">{testimonial.name}</p>
+                    <p className="text-sm text-gray-400">{testimonial.profession}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust & Security Section */}
+      <section className="py-16 bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Trust & Security</h2>
+            <p className="text-gray-300 text-lg">Your protection is our priority</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="bg-gradient-to-br from-green-950 to-gray-900 border-green-500/30">
               <CardContent className="p-8 text-center">
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Shield className="w-8 h-8 text-green-400" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">SecureHold Escrow Protection</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <h3 className="text-xl font-bold text-white mb-4">SecureHold Escrow Protection</h3>
+                <p className="text-gray-300">
                   Funds secured until delivery confirmed. Your money stays safe throughout the entire transaction.
                 </p>
+                <p className="text-gray-300 mt-2 font-medium">Every seller personally vetted.</p>
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-blue-100 to-white dark:from-blue-950 dark:to-gray-900 border-blue-500/30">
+            <Card className="bg-gradient-to-br from-blue-950 to-gray-900 border-blue-500/30">
               <CardContent className="p-8 text-center">
                 <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="w-8 h-8 text-blue-400" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Verified Seller Network</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <h3 className="text-xl font-bold text-white mb-4">Verified Seller Network</h3>
+                <p className="text-gray-300">
                   Government ID verification required. Every seller undergoes thorough background checks.
                 </p>
+                <p className="text-gray-300 mt-2 font-medium">Limited to 25 total sellers in 2025.</p>
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-purple-100 to-white dark:from-purple-950 dark:to-gray-900 border-purple-500/30">
+            <Card className="bg-gradient-to-br from-purple-950 to-gray-900 border-purple-500/30">
               <CardContent className="p-8 text-center">
                 <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Eye className="w-8 h-8 text-purple-400" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Buyer Protection Guarantee</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <h3 className="text-xl font-bold text-white mb-4">Buyer Protection Guarantee</h3>
+                <p className="text-gray-300">
                   Full refund dispute resolution. Our team ensures fair outcomes for all transactions.
                 </p>
+                <p className="text-gray-300 mt-2 font-medium">We know every seller by name.</p>
               </CardContent>
             </Card>
           </div>
@@ -642,22 +1014,22 @@ export default function MarketplaceLanding() {
       </section>
 
       {/* Newsletter Capture */}
-      <section className="py-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950 dark:to-purple-950">
+      <section className="py-16 bg-gradient-to-r from-blue-950 to-purple-950">
         <div className="container mx-auto px-4">
-          <Card className="bg-white/90 dark:bg-gray-900/80 border-blue-500/30 backdrop-blur max-w-2xl mx-auto">
+          <Card className="bg-gray-900/80 border-blue-500/30 backdrop-blur max-w-2xl mx-auto">
             <CardContent className="p-8 text-center">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Join ArbVault</h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">Get 5% off your first order</p>
+              <h3 className="text-2xl font-bold text-white mb-4">Join ArbVault</h3>
+              <p className="text-gray-300 mb-6">Get 2% off your first order</p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <Input
                   placeholder="Enter your email address"
-                  className="bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 flex-1"
+                  className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 flex-1"
                 />
                 <Button className="bg-blue-600 hover:bg-blue-700 px-8">Subscribe</Button>
               </div>
 
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Extra 5% off when paying with Bitcoin</p>
+              <p className="text-sm text-gray-400 mb-2">Extra 3% off when paying with Bitcoin</p>
               <a href="#" className="text-sm text-blue-400 hover:text-blue-300 underline">
                 How to Safely Acquire Bitcoin →
               </a>
@@ -667,94 +1039,97 @@ export default function MarketplaceLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-100 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
+      <footer className="bg-gray-950 border-t border-gray-800">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-6">
                 <Shield className="h-8 w-8 text-blue-500" />
-                <span className="text-xl font-bold text-gray-900 dark:text-white">ArbVault</span>
+                <span className="text-xl font-bold text-white">ArbVault</span>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                The premier marketplace for authenticated high-value goods.
-              </p>
+              <p className="text-gray-300 mb-4">The trusted marketplace for professional equipment.</p>
               <div className="flex space-x-4">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 bg-transparent"
-                >
-                  Members-Only Discord
-                </Button>
+                <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30">Public launch 2025</Badge>
               </div>
+              <p className="text-sm text-gray-400 mt-2">Join 147 professionals on our waitlist</p>
             </div>
 
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Legal</h4>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+              <h4 className="font-semibold text-white mb-4">Platform</h4>
+              <ul className="space-y-2 text-gray-300">
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    Quick Rules
+                  <a href="#" className="hover:text-white transition-colors">
+                    Seller Standards
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    Terms of Service
+                  <a href="#" className="hover:text-white transition-colors">
+                    Why Only 10 Sellers?
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    Privacy Policy
+                  <a href="#" className="hover:text-white transition-colors">
+                    Fee Structure
                   </a>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Platform</h4>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+              <h4 className="font-semibold text-white mb-4">Trust & Security</h4>
+              <ul className="space-y-2 text-gray-300">
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    Our Fees
+                  <a href="#" className="hover:text-white transition-colors">
+                    ID Verification Process
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    Seller Verification
+                  <a href="#" className="hover:text-white transition-colors">
+                    Equipment Authentication
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
+                  <a href="#" className="hover:text-white transition-colors">
                     Dispute Resolution
                   </a>
                 </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Direct Seller Support
+                  </a>
+                </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Resources</h4>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+              <h4 className="font-semibold text-white mb-4">Resources</h4>
+              <ul className="space-y-2 text-gray-300">
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    API Docs
+                  <a href="#" className="hover:text-white transition-colors">
+                    Bitcoin Buying Guide
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    System Status
+                  <a href="#" className="hover:text-white transition-colors">
+                    Pro Equipment Guides
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gray-900 dark:hover:text-white transition-colors">
-                    Careers
+                  <a href="#" className="hover:text-white transition-colors">
+                    Private Discord (buyers only)
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Seller Applications
                   </a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-200 dark:border-gray-800 mt-12 pt-8 text-center text-gray-600 dark:text-gray-300">
-            <p>&copy; 2024 ArbVault. All rights reserved. Built for collectors, by collectors.</p>
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-300">
+            <p>&copy; 2025 ArbVault. All rights reserved. Built for professionals, by professionals.</p>
           </div>
         </div>
       </footer>
@@ -765,6 +1140,49 @@ export default function MarketplaceLanding() {
           <MessageCircle className="w-6 h-6" />
         </Button>
       </div>
+
+      {/* Newsletter Slide-In */}
+      {showNewsletter && (
+        <div className="fixed bottom-6 right-6 z-40 w-80 animate-bounce-in">
+          <Card className="bg-gray-900 border-purple-500 border-2 shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex justify-between items-start mb-3">
+                <h4 className="font-bold text-white">Insider Access: Save 2% on Your First Order</h4>
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => setShowNewsletter(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-sm text-gray-300 mb-3">Join verified buyers of pro-grade equipment</p>
+              <div className="mb-3">
+                <Input placeholder="Your email address" className="mb-2 bg-gray-800 border-gray-600" />
+                <Button className="w-full bg-purple-600 hover:bg-purple-700">Subscribe</Button>
+              </div>
+              <div className="bg-amber-500/10 p-2 rounded-md text-xs">
+                <p className="text-gray-300">💡 Pro tip: Pay with Bitcoin for an extra 3% off</p>
+              </div>
+              <div className="text-center mt-3">
+                <button className="text-xs text-gray-500 hover:text-gray-300" onClick={() => setShowNewsletter(false)}>
+                  Don't show again
+                </button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Social Proof Toast */}
+      {showToast && (
+        <div className="fixed bottom-24 left-6 z-40 animate-slide-in">
+          <Card className="bg-gray-900 border-green-500 border shadow-lg">
+            <CardContent className="p-3 flex items-center space-x-3">
+              <Shield className="h-5 w-5 text-green-500" />
+              <p className="text-sm text-gray-300">
+                🛡️ {toastProduct} shipped to {toastLocation}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }
