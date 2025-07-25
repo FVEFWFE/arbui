@@ -594,6 +594,69 @@ export default function MarketplaceLanding() {
               </Card>
             ))}
           </div>
+
+          <div className="mt-16 max-w-4xl mx-auto">
+            <Card className="bg-gray-800 border-amber-500/30">
+              <CardContent className="p-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">Professional Seller Requirements</h3>
+                  <p className="text-gray-300">
+                    Our rigorous standards ensure only the most qualified sellers join our network
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">Government ID Verification</h4>
+                    <p className="text-sm text-gray-300">Full identity verification required</p>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Package className="w-6 h-6 text-green-400" />
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">Business Documentation</h4>
+                    <p className="text-sm text-gray-300">Verified business credentials</p>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Shield className="w-6 h-6 text-amber-400" />
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">$5,000 Performance Bond</h4>
+                    <p className="text-sm text-gray-300">Financial commitment to quality</p>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Truck className="w-6 h-6 text-purple-400" />
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">Same-Day Shipping Capability</h4>
+                    <p className="text-sm text-gray-300">Fast, reliable fulfillment</p>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Clock className="w-6 h-6 text-red-400" />
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">4-Hour Response Commitment</h4>
+                    <p className="text-sm text-gray-300">Guaranteed communication standards</p>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Users className="w-6 h-6 text-indigo-400" />
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">Implementation Suggestion</h4>
+                    <p className="text-sm text-gray-300">Proven track record required</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
